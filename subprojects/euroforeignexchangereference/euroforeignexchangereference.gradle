@@ -21,6 +21,9 @@ plugins {
 }
 
 config {
+    docs {
+        javadoc    { enabled = true }
+    }
     bintray    { enabled = true }
     publishing { enabled = true }
 }
@@ -28,7 +31,7 @@ license {
     excludes(["**/logback.xml"])
 }
 
-group 'groovycalamari.euro-foreign-exchange-reference-rates'
+group 'groovycalamari.euroforeignexchangereference'
 version projectVersion
 
 dependencies {
@@ -40,6 +43,8 @@ dependencies {
     implementation "io.micronaut:micronaut-inject:$micronautVersion"
     implementation "io.micronaut:micronaut-runtime:$micronautVersion"
     implementation "io.micronaut:micronaut-http-client:$micronautVersion"
+    implementation "io.micronaut.xml:micronaut-jackson-xml:2.0.0"
+
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
     api('io.reactivex.rxjava2:rxjava:2.2.10') {
