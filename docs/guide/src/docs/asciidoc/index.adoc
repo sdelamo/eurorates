@@ -25,7 +25,7 @@ You can use the library without a Micronaut Application Context. In that case, t
 
 [source,java]
 ----
-EuroRatesApi curatedApi = new ManualEuroRatesApi();
+EuroRatesApi euroRatesApi = new ManualEuroRatesApi();
 ----
 
 The api contains methods to obtain the current rates, historic rates and last 90 days rates.
