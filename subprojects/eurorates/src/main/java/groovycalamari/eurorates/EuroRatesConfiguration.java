@@ -15,10 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.euroforeignexchangereference;
+package groovycalamari.eurorates;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.client.HttpClientConfiguration;
 import io.micronaut.runtime.ApplicationConfiguration;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -26,10 +25,10 @@ import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 
 /**
- * {@link ConfigurationProperties} for {@link EuroForeignExchangeReferenceRatesClient}.
+ * {@link ConfigurationProperties} for {@link EuroRatesClient}.
  */
-@ConfigurationProperties(EuroForeignExchangeReferenceRatesConfiguration.PREFIX)
-public class EuroForeignExchangeReferenceRatesConfiguration extends HttpClientConfiguration {
+@ConfigurationProperties(EuroRatesConfiguration.PREFIX)
+public class EuroRatesConfiguration extends HttpClientConfiguration {
     public static final String PREFIX = "euro";
     public static final String HOST_LIVE = "https://www.ecb.europa.eu";
 
@@ -50,8 +49,8 @@ public class EuroForeignExchangeReferenceRatesConfiguration extends HttpClientCo
     }
 
 
-    public EuroForeignExchangeReferenceRatesConfiguration(final ApplicationConfiguration applicationConfiguration,
-                                          final EuroForeignExchangeReferenceRatesConnectionPoolConfiguration connectionPoolConfiguration) {
+    public EuroRatesConfiguration(final ApplicationConfiguration applicationConfiguration,
+                                  final EuroForeignExchangeReferenceRatesConnectionPoolConfiguration connectionPoolConfiguration) {
         super(applicationConfiguration);
         this.connectionPoolConfiguration = connectionPoolConfiguration;
     }
@@ -64,14 +63,14 @@ public class EuroForeignExchangeReferenceRatesConfiguration extends HttpClientCo
     }
 
     /**
-     * {@link ConnectionPoolConfiguration} for {@link EuroForeignExchangeReferenceRatesClient}.
+     * {@link ConnectionPoolConfiguration} for {@link EuroRatesClient}.
      */
     @ConfigurationProperties(ConnectionPoolConfiguration.PREFIX)
     public static class EuroForeignExchangeReferenceRatesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
     }
 
     /**
-     * Extra {@link ConfigurationProperties} to set the values for the {@link io.micronaut.retry.annotation.Retryable} annotation on {@link EuroForeignExchangeReferenceRatesClient}.
+     * Extra {@link ConfigurationProperties} to set the values for the {@link io.micronaut.retry.annotation.Retryable} annotation on {@link EuroRatesClient}.
      */
     @ConfigurationProperties(EuroForeignExchangeReferenceRatesConnectionPoolRetryConfiguration.PREFIX)
     public static class EuroForeignExchangeReferenceRatesConnectionPoolRetryConfiguration {

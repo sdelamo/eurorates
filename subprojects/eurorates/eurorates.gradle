@@ -21,9 +21,6 @@ plugins {
 }
 
 config {
-    docs {
-        javadoc    { enabled = true }
-    }
     bintray    { enabled = true }
     publishing { enabled = true }
 }
@@ -31,7 +28,7 @@ license {
     excludes(["**/logback.xml"])
 }
 
-group 'groovycalamari.euroforeignexchangereference'
+group 'groovycalamari.eurorates'
 version projectVersion
 
 dependencies {

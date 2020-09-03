@@ -15,13 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.euroforeignexchangereference;
+package groovycalamari.eurorates;
 
-import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Header;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.retry.annotation.Retryable;
@@ -30,25 +28,29 @@ import io.reactivex.Single;
 
 @Validated
 @Client(
-        value = "${" + EuroForeignExchangeReferenceRatesConfiguration.PREFIX + ".url:`" + EuroForeignExchangeReferenceRatesConfiguration.HOST_LIVE + "`}",
-        configuration = EuroForeignExchangeReferenceRatesConfiguration.class
+        value = "${" + EuroRatesConfiguration.PREFIX + ".url:`" + EuroRatesConfiguration.HOST_LIVE + "`}",
+        configuration = EuroRatesConfiguration.class
 )
 @Retryable(
-        attempts = "${" + EuroForeignExchangeReferenceRatesConfiguration.PREFIX + ".retry.attempts:0}",
-        delay = "${" + EuroForeignExchangeReferenceRatesConfiguration.PREFIX + ".retry.delay:5s}")
+        attempts = "${" + EuroRatesConfiguration.PREFIX + ".retry.attempts:0}",
+        delay = "${" + EuroRatesConfiguration.PREFIX + ".retry.delay:5s}")
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
-public interface EuroForeignExchangeReferenceRatesClient extends EuroForeignExchangeReferenceRatesApi {
+public interface EuroRatesClient extends EuroRatesApi {
+
+    String PATH_CURRENT = "/stats/eurofxref/eurofxref-daily.xml";
+    String PATH_HISTORY = "/stats/eurofxref/eurofxref-hist.xml";
+    String PATH_90_DAYS = "/stats/eurofxref/eurofxref-hist-90d.xml";
 
     @Override
-    @Get("/stats/eurofxref/eurofxref-daily.xml")
+    @Get(PATH_CURRENT)
     Single<GesmesEnvelope> currentReferenceRates();
 
     @Override
-    @Get("/stats/eurofxref/eurofxref-hist.xml")
+    @Get(PATH_HISTORY)
     Single<GesmesEnvelope> historicalReferenceRates();
 
     @Override
-    @Get("/stats/eurofxref/eurofxref-hist-90d.xml")
+    @Get(PATH_90_DAYS)
     Single<GesmesEnvelope> last90DaysReferenceRates();
 }

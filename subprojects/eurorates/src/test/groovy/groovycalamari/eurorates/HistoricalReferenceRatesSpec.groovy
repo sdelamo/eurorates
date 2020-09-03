@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.euroforeignexchangereference
+package groovycalamari.eurorates
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
@@ -26,8 +26,9 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Produces
 import io.micronaut.runtime.server.EmbeddedServer
+import spock.lang.Specification
 
-class HistoricalReferenceRatesSpec extends ApplicationContextSpecification {
+class HistoricalReferenceRatesSpec extends Specification {
     void "cube rate XML reading"() {
         given:
         int curatedPort = SocketUtils.findAvailableTcpPort()
@@ -38,7 +39,7 @@ class HistoricalReferenceRatesSpec extends ApplicationContextSpecification {
         ApplicationContext applicationContext = ApplicationContext.run([
                 'euro.url': "http://localhost:${curatedPort}"
         ])
-        EuroForeignExchangeReferenceRatesApi api = applicationContext.getBean(EuroForeignExchangeReferenceRatesApi)
+        EuroRatesApi api = applicationContext.getBean(EuroRatesApi)
 
         when:
         GesmesEnvelope envelope = api.historicalReferenceRates().blockingGet()

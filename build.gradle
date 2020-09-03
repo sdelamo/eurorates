@@ -23,7 +23,7 @@ plugins {
 }
 
 ext {
-    githubSlug = 'euro-foreign-exchange-reference-rates'
+    githubSlug = 'eurorates'
     githubOrg = 'sdelamo'
     bintrayUserOrg = 'groovycalamari'
 }

@@ -15,14 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.euroforeignexchangereference;
+package groovycalamari.eurorates
 
-import io.reactivex.Single;
+trait ConfigurationFixture {
+    Map<String, Object> getConfiguration() {
+        Map<String, Object> m = [:]
+        if (specName) {
+            m['spec.name'] = specName
+        }
+        m
+    }
 
-public interface EuroForeignExchangeReferenceRatesApi {
-    Single<GesmesEnvelope> currentReferenceRates();
-
-    Single<GesmesEnvelope> historicalReferenceRates();
-
-    Single<GesmesEnvelope> last90DaysReferenceRates();
+    String getSpecName() {
+        null
+    }
 }

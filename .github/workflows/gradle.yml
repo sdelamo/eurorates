@@ -20,5 +20,5 @@ jobs:
     - name: Publish Documentation
       run: ./publish.sh
       env:
-        GITHUB_SLUG: sdelamo/euro-foreign-exchange-reference-rates
+        GITHUB_SLUG: sdelamo/eurorates
         GH_TOKEN: ${{ secrets.GH_TOKEN }}

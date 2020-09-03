@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-rootProject.name = 'euro-foreign-exchange-reference-rates'
+rootProject.name = 'eurorates'
 
 def includeProject = { String projectDirName, String projectName ->
     File baseDir = new File(settingsDir, projectDirName)

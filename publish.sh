@@ -29,6 +29,15 @@ if [[ $EXIT_STATUS -ne 0 ]]; then
     exit $EXIT_STATUS
 fi
 
+./gradlew javadoc --scan || EXIT_STATUS=$?
+
+if [[ $EXIT_STATUS -ne 0 ]]; then
+    echo "Project Build failed"
+    exit $EXIT_STATUS
+fi
+
+cp -r subprojects/eurorates/build/docs/javadoc docs/guide/build/guide/javadoc
+
 git clone https://${GH_TOKEN}@github.com/${GITHUB_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
 cd gh-pages
 ls -la ../docs/guide/build/guide/*

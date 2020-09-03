@@ -15,60 +15,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.euroforeignexchangereference;
+package groovycalamari.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Introspected
-public class GesmesEnvelope {
-
+public class CubeRate {
     @NonNull
-    @JacksonXmlProperty(namespace = "gesmes", localName = "subject")
     @NotBlank
-    private String subject;
+    @JacksonXmlProperty(isAttribute = true)
+    private String currency;
 
+    @JacksonXmlProperty(isAttribute = true)
     @NonNull
-    @NotNull
-    @JacksonXmlProperty(namespace = "gesmes", localName = "Sender")
-    private GesmesSender sender;
+    @NotBlank
+    private Float rate;
 
-    @NonNull
-    @NotNull
-    @JacksonXmlProperty(localName = "Cube")
-    private Cube cube;
-
-    public GesmesEnvelope() {
+    public CubeRate() {
     }
 
-    @NonNull
-    public GesmesSender getSender() {
-        return sender;
-    }
-
-    public void setSender(@NonNull GesmesSender sender) {
-        this.sender = sender;
+    public CubeRate(@NonNull @NotBlank String currency,
+                    @NonNull @NotBlank Float rate) {
+        this.currency = currency;
+        this.rate = rate;
     }
 
     @NonNull
-    public String getSubject() {
-        return subject;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setSubject(@NonNull String subject) {
-        this.subject = subject;
+    public void setCurrency(@NonNull String currency) {
+        this.currency = currency;
     }
 
     @NonNull
-    public Cube getCube() {
-        return cube;
+    public Float getRate() {
+        return rate;
     }
 
-    public void setCube(@NonNull Cube cube) {
-        this.cube = cube;
+    public void setRate(@NonNull Float rate) {
+        this.rate = rate;
+    }
+
+    @Override
+    public String toString() {
+        return "<Cube currency='" + currency + "', rate='" + rate + "'/>";
     }
 }
