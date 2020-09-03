@@ -31,12 +31,12 @@ import spock.lang.Specification
 class ManualLast90DaysReferenceRatesSpec extends Specification {
     void "cube rate XML reading"() {
         given:
-        int curatedPort = SocketUtils.findAvailableTcpPort()
+        int mockPort = SocketUtils.findAvailableTcpPort()
         EmbeddedServer mockServer = ApplicationContext.run(EmbeddedServer, [
                 'spec.name': 'ManualLast90DaysReferenceRatesSpec',
-                'micronaut.server.port': curatedPort,
+                'micronaut.server.port': mockPort,
         ])
-        EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${curatedPort}")
+        EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${mockPort}")
 
         when:
         GesmesEnvelope envelope = api.last90DaysReferenceRates().blockingGet()

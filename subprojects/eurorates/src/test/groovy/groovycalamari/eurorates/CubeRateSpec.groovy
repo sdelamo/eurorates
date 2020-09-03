@@ -33,13 +33,13 @@ class CubeRateSpec extends ApplicationContextSpecification {
 
     void "cube rate XML reading"() {
         given:
-        int curatedPort = SocketUtils.findAvailableTcpPort()
+        int mockPort = SocketUtils.findAvailableTcpPort()
         EmbeddedServer mockServer = ApplicationContext.run(EmbeddedServer, [
                 'spec.name': 'CubeRateSpec',
-                'micronaut.server.port': curatedPort,
+                'micronaut.server.port': mockPort,
         ])
         ApplicationContext applicationContext = ApplicationContext.run([
-                'mock.url': "http://localhost:${curatedPort}"
+                'mock.url': "http://localhost:${mockPort}"
         ])
         XmlClient xmlClient = applicationContext.getBean(XmlClient)
 

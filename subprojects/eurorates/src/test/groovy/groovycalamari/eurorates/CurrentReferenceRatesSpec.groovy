@@ -31,13 +31,13 @@ import spock.lang.Specification
 class CurrentReferenceRatesSpec extends Specification {
     void "cube rate XML reading"() {
         given:
-        int curatedPort = SocketUtils.findAvailableTcpPort()
+        int mockPort = SocketUtils.findAvailableTcpPort()
         EmbeddedServer mockServer = ApplicationContext.run(EmbeddedServer, [
                 'spec.name': 'CurrentReferenceRatesSpec',
-                'micronaut.server.port': curatedPort,
+                'micronaut.server.port': mockPort,
         ])
         ApplicationContext applicationContext = ApplicationContext.run([
-                'euro.url': "http://localhost:${curatedPort}"
+                'euro.url': "http://localhost:${mockPort}"
         ])
         EuroRatesApi api = applicationContext.getBean(EuroRatesApi)
 

@@ -31,12 +31,12 @@ import spock.lang.Specification
 class ManualCurrentReferenceRatesSpec extends Specification {
     void "read current rates with manual euro rates api"() {
         given:
-        int curatedPort = SocketUtils.findAvailableTcpPort()
+        int mockPort = SocketUtils.findAvailableTcpPort()
         EmbeddedServer mockServer = ApplicationContext.run(EmbeddedServer, [
                 'spec.name': 'ManualCurrentReferenceRatesSpec',
-                'micronaut.server.port': curatedPort,
+                'micronaut.server.port': mockPort,
         ])
-        EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${curatedPort}")
+        EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${mockPort}")
 
         when:
         GesmesEnvelope envelope = api.currentReferenceRates().blockingGet()
