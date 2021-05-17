@@ -29,11 +29,6 @@ if [[ $EXIT_STATUS -ne 0 ]]; then
     exit $EXIT_STATUS
 fi
 
-if [[ $EXIT_STATUS -ne 0 ]]; then
-    echo "Project Build failed"
-    exit $EXIT_STATUS
-fi
-
 git clone https://${GH_TOKEN}@github.com/${GITHUB_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
 
 cd gh-pages
