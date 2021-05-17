@@ -22,26 +22,24 @@ git config --global user.name "${COMMIT_NAME}"
 git config --global credential.helper "store --file=~/.git-credentials"
 echo "https://$GH_TOKEN:@github.com" > ~/.git-credentials
 
-./gradlew createGuide --scan || EXIT_STATUS=$?
+./gradlew build --scan || EXIT_STATUS=$?
 
 if [[ $EXIT_STATUS -ne 0 ]]; then
     echo "Project Build failed"
     exit $EXIT_STATUS
 fi
 
-./gradlew javadoc --scan || EXIT_STATUS=$?
-
 if [[ $EXIT_STATUS -ne 0 ]]; then
     echo "Project Build failed"
     exit $EXIT_STATUS
 fi
-
-cp -r subprojects/eurorates/build/docs/javadoc docs/guide/build/guide/javadoc
 
 git clone https://${GH_TOKEN}@github.com/${GITHUB_SLUG}.git -b gh-pages gh-pages --single-branch > /dev/null
+
 cd gh-pages
-ls -la ../docs/guide/build/guide/*
-cp -r ../docs/guide/build/guide/* .
+
+cp ../build/docs/asciidoc/index.html index.html
+cp -r ../build/docs/javadoc/* javadoc/*
 
 if git diff --quiet; then
   echo "No changes in documentation"

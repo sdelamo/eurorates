@@ -1,0 +1,38 @@
+# Euro Foreign Exchange Reference Rates API Micronaut Java Library
+
+- https://github.com/sdelamo/eurorates[Code Repository]
+- https://github.com/sdelamo/eurorates/releases[Releases]
+- https://sdelamo.github.io/eurorates/javadoc/index.html[Java Docs]
+
+This project is a Java libray to consume the https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html[Euro foreign exchange reference rates] API. It is built with https://micronaut.io[Micronaut] and you can use it in a Micronaut app or as a standalone library.
+
+== Dependency snippet
+
+To use it with https://gradle.org[Gradle]:
+
+`implementation 'groovycalamari.eurorates:eurorates:{project-version}'`
+
+To use it with https://maven.apache.org[Maven]:
+
+`<dependency><groupId>groovycalamari.eurorates</groupId><artifactId>eurorates</artifactId><version>{project-version}</version><type>pom</type></dependency>`
+
+== Usage
+
+If you want to use the library in Micronaut application, the library registers a bean of type `groovycalamari.eurorates.EuroRatesApi` in the Micronaut's application context.
+
+You can use the library without a Micronaut Application Context. In that case, to obtain a `EuroRatesApi` do:
+
+[source,java]
+----
+EuroRatesApi euroRatesApi = new ManualEuroRatesApi();
+----
+
+The api contains methods to obtain the current rates, historic rates and last 90 days rates.
+
+== Build
+
+This library uses https://gradle.org[Gradle].
+
+It uses the plugins:
+
+- https://plugins.gradle.org/plugin/com.gradle.build-scan[Gradle Build Scan Plugins]
