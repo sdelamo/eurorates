@@ -63,7 +63,7 @@ Closure pomInfo = {
             name = developerName
             email = developerEmail
             organization = organizationName
-            organizationUrl = organizationUrl
+            organizationUrl = organizationWebsite
         }
     }
     scm {
