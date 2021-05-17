@@ -34,7 +34,8 @@ git clone https://${GH_TOKEN}@github.com/${GITHUB_SLUG}.git -b gh-pages gh-pages
 cd gh-pages
 
 cp ../build/docs/asciidoc/index.html index.html
-cp -r ../build/docs/javadoc/* javadoc/*
+rm -rf javadoc
+cp -r ../build/docs/javadoc javadoc
 
 if git diff --quiet; then
   echo "No changes in documentation"
