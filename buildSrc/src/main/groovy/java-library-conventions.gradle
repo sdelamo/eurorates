@@ -85,7 +85,7 @@ publishing {
     }
     repositories {
         maven {
-            url = isReleaseVersion ? 'https://oss.sonatype.org/service/local/staging/deploy/maven2' : 'https://oss.sonatype.org/content/repositories/snapshots/'
+            url = isReleaseVersion ? 'https://s01.oss.sonatype.org/' : 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
             credentials {
                 username System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
                 password System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
