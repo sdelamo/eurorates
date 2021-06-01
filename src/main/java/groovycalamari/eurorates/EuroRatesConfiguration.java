@@ -77,12 +77,12 @@ public class EuroRatesConfiguration extends HttpClientConfiguration {
         private static final int DEFAULT_ATTEMPTS = 0;
 
         /**
-         * The delay between retry attempts
+         * The delay between retry attempts.
          */
         private Duration delay = DEFAULT_DELAY;
 
         /**
-         * The maximum number of retry attempts
+         * The maximum number of retry attempts.
          */
         private int attempts = DEFAULT_ATTEMPTS;
 
