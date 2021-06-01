@@ -17,4 +17,4 @@ jobs:
         env:
           BINTRAY_USER: ${{ secrets.SONATYPE_USERNAME }}
           BINTRAY_KEY: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew publishToSonatype closeSonatypeStagingRepository
+        run: ./gradlew publishToSonatype closeSonatypeStagingRepository --console=plain
