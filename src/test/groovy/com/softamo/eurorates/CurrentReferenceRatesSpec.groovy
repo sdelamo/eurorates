@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates
+package com.softamo.eurorates
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
@@ -26,15 +26,18 @@ import io.micronaut.http.annotation.Produces
 import io.micronaut.runtime.server.EmbeddedServer
 import spock.lang.Specification
 
-class ManualCurrentReferenceRatesSpec extends Specification {
-    void "read current rates with manual euro rates api"() {
+class CurrentReferenceRatesSpec extends Specification {
+    void "cube rate XML reading"() {
         given:
         int mockPort = SocketUtils.findAvailableTcpPort()
         EmbeddedServer mockServer = ApplicationContext.run(EmbeddedServer, [
-                'spec.name': 'ManualCurrentReferenceRatesSpec',
+                'spec.name': 'CurrentReferenceRatesSpec',
                 'micronaut.server.port': mockPort,
         ])
-        EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${mockPort}")
+        ApplicationContext applicationContext = ApplicationContext.run([
+                'euro.url': "http://localhost:${mockPort}"
+        ])
+        EuroRatesApi api = applicationContext.getBean(EuroRatesApi)
 
         when:
         GesmesEnvelope envelope = api.currentReferenceRates().blockingGet()
@@ -54,9 +57,10 @@ class ManualCurrentReferenceRatesSpec extends Specification {
         envelope.cube.times[0].rates[1].rate == 126.92f
 
         cleanup:
+        applicationContext.close()
         mockServer.close()
     }
-    @Requires(property = "spec.name", value = "ManualCurrentReferenceRatesSpec")
+    @Requires(property = "spec.name", value = "CurrentReferenceRatesSpec")
     @Controller
     static class MockController {
 

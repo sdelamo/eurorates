@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates;
+package com.softamo.eurorates;
 
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;

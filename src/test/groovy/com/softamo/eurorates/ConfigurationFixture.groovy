@@ -13,30 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates;
+package com.softamo.eurorates
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Introspected;
-
-import javax.validation.constraints.NotBlank;
-
-@Introspected
-public class GesmesSender {
-    @JacksonXmlProperty(namespace = "gesmes", localName = "name")
-    @NonNull
-    @NotBlank
-    private String name;
-
-    public GesmesSender() {
+trait ConfigurationFixture {
+    Map<String, Object> getConfiguration() {
+        Map<String, Object> m = [:]
+        if (specName) {
+            m['spec.name'] = specName
+        }
+        m
     }
 
-    @NonNull
-    public String getName() {
-        return name;
-    }
-
-    public void setName(@NonNull String name) {
-        this.name = name;
+    String getSpecName() {
+        null
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates;
+package com.softamo.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.micronaut.http.HttpRequest;

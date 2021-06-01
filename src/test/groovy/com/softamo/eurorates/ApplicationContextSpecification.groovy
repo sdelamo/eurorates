@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates;
+package com.softamo.eurorates
 
-import io.reactivex.Single;
 
-public interface EuroRatesApi {
-    Single<GesmesEnvelope> currentReferenceRates();
+import io.micronaut.context.ApplicationContext
+import spock.lang.AutoCleanup
+import spock.lang.Shared
+import spock.lang.Specification
 
-    Single<GesmesEnvelope> historicalReferenceRates();
-
-    Single<GesmesEnvelope> last90DaysReferenceRates();
+abstract class ApplicationContextSpecification extends Specification implements ConfigurationFixture {
+    @AutoCleanup
+    @Shared
+    ApplicationContext applicationContext = ApplicationContext.run(configuration)
 }

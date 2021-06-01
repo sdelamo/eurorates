@@ -13,16 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovycalamari.eurorates
+package com.softamo.eurorates;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Introspected;
 
-import io.micronaut.context.ApplicationContext
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
+import javax.validation.constraints.NotBlank;
 
-abstract class ApplicationContextSpecification extends Specification implements ConfigurationFixture {
-    @AutoCleanup
-    @Shared
-    ApplicationContext applicationContext = ApplicationContext.run(configuration)
+@Introspected
+public class GesmesSender {
+    @JacksonXmlProperty(namespace = "gesmes", localName = "name")
+    @NonNull
+    @NotBlank
+    private String name;
+
+    public GesmesSender() {
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
 }
