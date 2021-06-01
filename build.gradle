@@ -13,8 +13,8 @@ ext {
 dependencies {
     api "io.micronaut:micronaut-inject:$micronautVersion"
     implementation "io.micronaut:micronaut-runtime:$micronautVersion"
-    implementation "io.micronaut:micronaut-http-client:$micronautVersion"
-    implementation "io.micronaut.xml:micronaut-jackson-xml:2.0.0"
+    api "io.micronaut:micronaut-http-client:$micronautVersion"
+    api "io.micronaut.xml:micronaut-jackson-xml:2.3.0"
 
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
