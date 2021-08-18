@@ -31,7 +31,7 @@ import java.net.URL;
 
 public class ManualEuroRatesApi implements EuroRatesApi {
 
-    private HttpClient httpClient;
+    private final HttpClient httpClient;
 
     public ManualEuroRatesApi() throws MalformedURLException {
         this(EuroRatesConfiguration.HOST_LIVE);
