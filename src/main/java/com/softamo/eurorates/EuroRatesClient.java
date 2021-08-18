@@ -23,7 +23,6 @@ import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.retry.annotation.Retryable;
 import io.micronaut.validation.Validated;
-import io.reactivex.Single;
 import org.reactivestreams.Publisher;
 
 @Validated

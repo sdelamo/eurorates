@@ -21,11 +21,8 @@ import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.client.HttpClient;
-import io.reactivex.Single;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
