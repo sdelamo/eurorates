@@ -64,7 +64,7 @@ public class ManualEuroRatesApi implements EuroRatesApi {
         return Flux.from(httpClient.retrieve(getRequest(path), String.class))
                 .flatMap(xml -> {
                     try {
-                        GesmesEnvelope envelope = new XmlMapper().readValue(xml.toString(), GesmesEnvelope.class);
+                        GesmesEnvelope envelope = new XmlMapper().readValue(xml, GesmesEnvelope.class);
                         return Flux.just(envelope);
                     } catch (JsonProcessingException e) {
                         return Flux.error(e);
