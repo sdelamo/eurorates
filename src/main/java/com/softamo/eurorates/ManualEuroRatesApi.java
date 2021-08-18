@@ -15,48 +15,66 @@
  */
 package com.softamo.eurorates;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.HttpClient;
 import io.reactivex.Single;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ManualEuroRatesApi implements EuroRatesApi {
 
-    private RxHttpClient rxHttpClient;
+    private HttpClient httpClient;
 
     public ManualEuroRatesApi() throws MalformedURLException {
         this(EuroRatesConfiguration.HOST_LIVE);
     }
 
     public ManualEuroRatesApi(String url) throws MalformedURLException {
-        rxHttpClient = RxHttpClient.create(new URL(url));
+        httpClient = HttpClient.create(new URL(url));
     }
 
     @Override
-    public Single<GesmesEnvelope> currentReferenceRates() {
+    @SingleResult
+    public Publisher<GesmesEnvelope> currentReferenceRates() {
         return retrieve(EuroRatesClient.PATH_CURRENT);
     }
 
     @Override
-    public Single<GesmesEnvelope> historicalReferenceRates() {
+    @SingleResult
+    public Publisher<GesmesEnvelope> historicalReferenceRates() {
         return retrieve(EuroRatesClient.PATH_HISTORY);
     }
 
     @Override
-    public Single<GesmesEnvelope> last90DaysReferenceRates() {
+    @SingleResult
+    public Publisher<GesmesEnvelope> last90DaysReferenceRates() {
         return retrieve(EuroRatesClient.PATH_90_DAYS);
     }
 
-    private Single<GesmesEnvelope> retrieve(String path) {
-        return rxHttpClient.retrieve(getRequest(path), String.class).map(xml ->
-        new XmlMapper().readValue(xml.toString(), GesmesEnvelope.class)).firstOrError();
+    @SingleResult
+    public Publisher<GesmesEnvelope> retrieve(String path) {
+        return Flux.from(httpClient.retrieve(getRequest(path), String.class))
+                .flatMap(xml -> {
+                    try {
+                        GesmesEnvelope envelope = new XmlMapper().readValue(xml.toString(), GesmesEnvelope.class);
+                        return Flux.just(envelope);
+                    } catch (JsonProcessingException e) {
+                        return Flux.error(e);
+                    }
+                });
     }
 
-    private HttpRequest getRequest(String uri) {
-        return HttpRequest.GET(uri).accept(MediaType.APPLICATION_XML).contentType(MediaType.APPLICATION_XML);
+    private HttpRequest<?> getRequest(String uri) {
+        return HttpRequest.GET(uri)
+                .accept(MediaType.APPLICATION_XML)
+                .contentType(MediaType.APPLICATION_XML);
     }
 }

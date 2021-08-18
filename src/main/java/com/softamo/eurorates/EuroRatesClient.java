@@ -15,6 +15,7 @@
  */
 package com.softamo.eurorates;
 
+import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Get;
@@ -23,6 +24,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.retry.annotation.Retryable;
 import io.micronaut.validation.Validated;
 import io.reactivex.Single;
+import org.reactivestreams.Publisher;
 
 @Validated
 @Client(
@@ -42,13 +44,16 @@ public interface EuroRatesClient extends EuroRatesApi {
 
     @Override
     @Get(PATH_CURRENT)
-    Single<GesmesEnvelope> currentReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> currentReferenceRates();
 
     @Override
     @Get(PATH_HISTORY)
-    Single<GesmesEnvelope> historicalReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> historicalReferenceRates();
 
     @Override
     @Get(PATH_90_DAYS)
-    Single<GesmesEnvelope> last90DaysReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> last90DaysReferenceRates();
 }

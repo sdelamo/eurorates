@@ -17,6 +17,7 @@ package com.softamo.eurorates
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
+import io.micronaut.core.async.annotation.SingleResult
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Consumes
@@ -26,6 +27,8 @@ import io.micronaut.http.annotation.Produces
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
 import io.reactivex.Single
+import org.reactivestreams.Publisher
+import reactor.core.publisher.Mono
 
 class CubeRateSpec extends ApplicationContextSpecification {
 
@@ -42,7 +45,7 @@ class CubeRateSpec extends ApplicationContextSpecification {
         XmlClient xmlClient = applicationContext.getBean(XmlClient)
 
         when:
-        CubeRate cubeRate = xmlClient.xmlContent.blockingGet()
+        CubeRate cubeRate = Mono.from(xmlClient.xmlContent).block()
 
         then:
         cubeRate
@@ -59,7 +62,8 @@ class CubeRateSpec extends ApplicationContextSpecification {
     @Produces(MediaType.APPLICATION_XML)
     static interface XmlClient {
         @Get
-        Single<CubeRate> getXmlContent();
+        @SingleResult
+        Publisher<CubeRate> getXmlContent();
     }
 
     @Requires(property = "spec.name", value = "CubeRateSpec")

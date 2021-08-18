@@ -15,12 +15,16 @@
  */
 package com.softamo.eurorates;
 
-import io.reactivex.Single;
+import io.micronaut.core.async.annotation.SingleResult;
+import org.reactivestreams.Publisher;
 
 public interface EuroRatesApi {
-    Single<GesmesEnvelope> currentReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> currentReferenceRates();
 
-    Single<GesmesEnvelope> historicalReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> historicalReferenceRates();
 
-    Single<GesmesEnvelope> last90DaysReferenceRates();
+    @SingleResult
+    Publisher<GesmesEnvelope> last90DaysReferenceRates();
 }

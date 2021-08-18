@@ -16,6 +16,8 @@ dependencies {
     api "io.micronaut:micronaut-http-client:$micronautVersion"
     api "io.micronaut.xml:micronaut-jackson-xml:2.3.0"
 
+    implementation "io.projectreactor:reactor-core"
+
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
     api('io.reactivex.rxjava2:rxjava:2.2.10') {

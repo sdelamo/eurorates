@@ -17,6 +17,7 @@ package com.softamo.eurorates
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
+import io.micronaut.core.async.annotation.SingleResult
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Consumes
@@ -26,6 +27,8 @@ import io.micronaut.http.annotation.Produces
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
 import io.reactivex.Single
+import org.reactivestreams.Publisher
+import reactor.core.publisher.Mono
 
 class GesmesEnvelopeSpec extends ApplicationContextSpecification {
     void "cube rate XML reading"() {
@@ -41,7 +44,7 @@ class GesmesEnvelopeSpec extends ApplicationContextSpecification {
         XmlClient xmlClient = applicationContext.getBean(XmlClient)
 
         when:
-        GesmesEnvelope envelope = xmlClient.xmlContent.blockingGet()
+        GesmesEnvelope envelope = Mono.from(xmlClient.xmlContent).block()
 
         then:
         envelope.subject == 'Reference rates'
@@ -67,7 +70,8 @@ class GesmesEnvelopeSpec extends ApplicationContextSpecification {
     @Produces(MediaType.APPLICATION_XML)
     static interface XmlClient {
         @Get
-        Single<GesmesEnvelope> getXmlContent();
+        @SingleResult
+        Publisher<GesmesEnvelope> getXmlContent();
     }
 
     @Requires(property = "spec.name", value = "GesmesEnvelopeSpec")

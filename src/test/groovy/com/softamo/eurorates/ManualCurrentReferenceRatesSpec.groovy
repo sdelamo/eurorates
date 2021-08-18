@@ -24,6 +24,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Produces
 import io.micronaut.runtime.server.EmbeddedServer
+import reactor.core.publisher.Mono
 import spock.lang.Specification
 
 class ManualCurrentReferenceRatesSpec extends Specification {
@@ -37,7 +38,7 @@ class ManualCurrentReferenceRatesSpec extends Specification {
         EuroRatesApi api = new ManualEuroRatesApi("http://localhost:${mockPort}")
 
         when:
-        GesmesEnvelope envelope = api.currentReferenceRates().blockingGet()
+        GesmesEnvelope envelope = Mono.from(api.currentReferenceRates()).block()
 
         then:
         envelope.subject == 'Reference rates'
