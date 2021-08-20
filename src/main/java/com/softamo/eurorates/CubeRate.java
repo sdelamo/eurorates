@@ -16,8 +16,9 @@
 package com.softamo.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.NonNull;
+
 import javax.validation.constraints.NotBlank;
 
 @Introspected
@@ -41,22 +42,22 @@ public class CubeRate {
         this.rate = rate;
     }
 
+    public void setCurrency(@NonNull String currency) {
+        this.currency = currency;
+    }
+
+    public void setRate(@NonNull Float rate) {
+        this.rate = rate;
+    }
+
     @NonNull
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(@NonNull String currency) {
-        this.currency = currency;
-    }
-
     @NonNull
     public Float getRate() {
         return rate;
-    }
-
-    public void setRate(@NonNull Float rate) {
-        this.rate = rate;
     }
 
     @Override

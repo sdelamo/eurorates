@@ -16,9 +16,10 @@
 package com.softamo.eurorates;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.client.HttpClientConfiguration;
 import io.micronaut.runtime.ApplicationConfiguration;
-import io.micronaut.core.annotation.NonNull;
+
 import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 

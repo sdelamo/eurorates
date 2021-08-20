@@ -1,39 +1,129 @@
 plugins {
-    id 'java-library-conventions'
-    id "com.diffplug.spotless" version "5.0.0"
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id 'java-library'
+    id 'checkstyle'
+    id 'maven-publish'
+    id 'signing'
+    id 'groovy'
     id "io.github.gradle-nexus.publish-plugin" version '1.1.0'
+    id "com.diffplug.spotless" version "5.14.2"
 }
-apply from: "gradle/asciidoc.gradle"
 
 ext {
-    micronautVersion = new File("${projectDir}/version.txt").text
+    isReleaseVersion = !projectVersion.endsWith("SNAPSHOT")
+}
+
+group mavenGroup
+version projectVersion
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    api "io.micronaut:micronaut-inject:$micronautVersion"
-    implementation "io.micronaut:micronaut-runtime:$micronautVersion"
-    api "io.micronaut:micronaut-http-client:$micronautVersion"
-    api "io.micronaut.xml:micronaut-jackson-xml:2.3.0"
+    annotationProcessor(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
 
+    implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    implementation "io.micronaut:micronaut-runtime:$micronautVersion"
+    implementation "io.micronaut:micronaut-inject"
+    implementation "io.micronaut:micronaut-validation"
+
+    implementation "io.micronaut:micronaut-http-client"
+    implementation "io.micronaut.xml:micronaut-jackson-xml"
     implementation "io.projectreactor:reactor-core"
 
-    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
-    
-    api('javax.validation:validation-api:2.0.1.Final') {
-        transitive(false)
-    }
-    api("io.micronaut:micronaut-core:$micronautVersion") {
-        transitive(false)
-    }
-    api("io.micronaut:micronaut-http:$micronautVersion") {
-        transitive(false)
-    }
-
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-http-server-netty"
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testImplementation("org.spockframework:spock-core") {
+        exclude module:'groovy-all'
+    }
 }
 
-build.dependsOn('asciidoctor')
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+Closure pomInfo = {
+    name = project.name
+    description = projectDesc
+    url = projectUrl
+    licenses {
+        license {
+            name = 'The Apache License, Version 2.0'
+            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+        }
+    }
+    developers {
+        developer {
+            name = developerName
+            email = developerEmail
+            organization = organizationName
+            organizationUrl = organizationWebsite
+        }
+    }
+    scm {
+        connection = "scm:git:https://github.com/${githubOrg}/${githubRepo}.git"
+        developerConnection = "scm:git:https://github.com/${githubOrg}/${githubRepo}.git"
+        url = "https://github.com/${githubOrg}/${githubRepo}"
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+            from components.java
+            pom pomInfo
+        }
+    }
+    repositories {
+        maven {
+            url = isReleaseVersion ? 'https://s01.oss.sonatype.org/' : 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            credentials {
+                username System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
+                password System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+spotless {
+    java {
+        licenseHeaderFile("$rootDir/config/spotless.license.java")
+    }
+}
+
+afterEvaluate {
+    if (project.hasProperty('skipPublish') && project.skipPublish as boolean) {
+        tasks.named('generateMetadataFileForMavenJavaPublication') { it.enabled = false }
+        tasks.named('generatePomFileForMavenJavaPublication') { it.enabled = false }
+        tasks.named('publishMavenJavaPublicationToMavenLocal') { it.enabled = false }
+        tasks.named('signMavenJavaPublication') { it.enabled = false }
+        tasks.named('publishMavenJavaPublicationToMavenRepository') {it.enabled = false }
+        tasks.named('publishToMavenLocal') { it.enabled = false }
+        tasks.named('publish') { it.enabled = false }
+    }
+}
+
 
 nexusPublishing {
     repositories {
@@ -45,4 +135,3 @@ nexusPublishing {
         }
     }
 }
-

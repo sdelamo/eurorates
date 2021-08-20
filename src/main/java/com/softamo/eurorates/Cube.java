@@ -17,8 +17,8 @@ package com.softamo.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.NonNull;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,12 +36,16 @@ public class Cube {
     public Cube() {
     }
 
-    @NonNull
-    public List<CubeTime> getTimes() {
-        return times;
+    public Cube(@NonNull List<@Valid CubeTime> times) {
+        this.times = times;
     }
 
     public void setTimes(@NonNull List<CubeTime> times) {
         this.times = times;
+    }
+
+    @NonNull
+    public List<CubeTime> getTimes() {
+        return times;
     }
 }

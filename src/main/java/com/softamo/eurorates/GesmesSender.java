@@ -16,8 +16,8 @@
 package com.softamo.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.NonNull;
 
 import javax.validation.constraints.NotBlank;
 
@@ -31,12 +31,16 @@ public class GesmesSender {
     public GesmesSender() {
     }
 
-    @NonNull
-    public String getName() {
-        return name;
+    public GesmesSender(@NonNull String name) {
+        this.name = name;
     }
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
     }
 }

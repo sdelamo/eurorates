@@ -16,8 +16,8 @@
 package com.softamo.eurorates;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.NonNull;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -43,13 +43,29 @@ public class GesmesEnvelope {
     public GesmesEnvelope() {
     }
 
-    @NonNull
-    public GesmesSender getSender() {
-        return sender;
+    public GesmesEnvelope(@NonNull String subject,
+                          @NonNull GesmesSender sender,
+                          @NonNull Cube cube) {
+        this.subject = subject;
+        this.sender = sender;
+        this.cube = cube;
+    }
+
+    public void setSubject(@NonNull String subject) {
+        this.subject = subject;
     }
 
     public void setSender(@NonNull GesmesSender sender) {
         this.sender = sender;
+    }
+
+    public void setCube(@NonNull Cube cube) {
+        this.cube = cube;
+    }
+
+    @NonNull
+    public GesmesSender getSender() {
+        return sender;
     }
 
     @NonNull
@@ -57,16 +73,8 @@ public class GesmesEnvelope {
         return subject;
     }
 
-    public void setSubject(@NonNull String subject) {
-        this.subject = subject;
-    }
-
     @NonNull
     public Cube getCube() {
         return cube;
-    }
-
-    public void setCube(@NonNull Cube cube) {
-        this.cube = cube;
     }
 }
