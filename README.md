@@ -47,13 +47,15 @@ It uses the plugins:
   
 ## Release instructions
 
-snapshot:
+### snapshot:
 
 - Make sure version ends with `-SNAPSHOT`
 - `./gradlew publish`
 
-release:
+### release:
 
 - bump up version
 - Tag it. E.g. v1.0.0
 - `./gradlew publishToSonatype closeSonatypeStagingRepository`
+
+Go to `https://s01.oss.sonatype.org/#stagingRepositories` and release repository.
